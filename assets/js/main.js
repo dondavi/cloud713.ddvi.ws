@@ -891,7 +891,7 @@ function validateField ( field ) {
 
 */
 
-$(document).ready(function(e) {  // <-- ensure form's HTML is ready
+$(document).ready(function() {  // <-- ensure form's HTML is ready
 
 	$("#contact-form-1").validate({  // <-- initialize plugin on the form.
 		// your rules and other options,
@@ -911,22 +911,24 @@ $(document).ready(function(e) {  // <-- ensure form's HTML is ready
 				required: true
 			}
 		},
-		submitHandler: function(form) {
-			$( '#contact-form-1' ).submit(function(e) {
-				if(e.preventDefault()) {
-				} else {
-					var $this = $( this ),
-						action = $this.attr( 'action' );
-				};
-				$.post(
-					action,
-					$this.serialize(),
-					function( data ) {
-						$( '.ajax-message' ).html( data );
-					}
-				);
-			});
+		submitHandler: function(form, event) {
+		//	console.log(form);
+		//	console.log(event);
+			$(form).find(':input[type=submit]').prop('disabled', true);
+			event.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: $(form).attr('action'),
+                    data: $(form).serialize(),
+                    success: function(data)
+                    {
+                     //   console.log($(form).attr('action'));
+                        $( '.ajax-message' ).append( data );
+                    }
+                });
+
 		}
+
     });
 });
-
