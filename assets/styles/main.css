@@ -10253,3 +10253,7 @@ form .input-error-2:focus {
 }
 
 /*# sourceMappingURL=main.css.map */
+.error {
+  color: #f00 !important;
+  font-size: .85em;
+}

@@ -682,13 +682,13 @@
 /* --------------------------------------------------
   Contact Pages
 -------------------------------------------------- */
-
+/*
 	$('.show-map').on('click', function(e){
 	  e.preventDefault();
 	  $('.contact-info-wrapper').toggleClass('map-open');
 	  $('.show-info-link').toggleClass('info-open');
 	});
-
+*/
 	$('.show-info-link').on('click', function(e){
 	  e.preventDefault();
 	  $('.contact-info-wrapper').toggleClass('map-open');
@@ -810,21 +810,8 @@
 /* --------------------------------------------------
 	Contact Form JS Validation & AJAX call
 -------------------------------------------------- */
+/*
 $(function() {
-
-//	$("#contactForm").validator().on("submit", function (event) {
-//	    if (event.isDefaultPrevented()) {
-//	        // handle the invalid form...
-//	        formError();
-//	        submitMSG(false, "You are missing required information to submit.");
-//	    } else {
-//	        // everything looks good!
-//	        event.preventDefault();
-//	        submitForm();
-//	    }
-//	});
-
-
 //	Regular Expressions
 var expEmail = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[_a-z0-9-]+(\.[_a-z0-9-]+)*(\.[a-z]{2,4})$/;
 var	expLettersOnly = /^[A-Za-z ]+$/;
@@ -849,7 +836,7 @@ if(e.preventDefault()) {
 
 };
 
-	// The AJAX requrest
+	// The AJAX request
 	$.post(
 			action,
 			$this.serialize(),
@@ -899,7 +886,47 @@ function validateField ( field ) {
 
 	// Display the errors
 	siblings.html( errorText );
-
 	}
-
 });
+
+*/
+
+$(document).ready(function(e) {  // <-- ensure form's HTML is ready
+
+	$("#contact-form-1").validate({  // <-- initialize plugin on the form.
+		// your rules and other options,
+		rules: {
+			name: {  // <-- this is the name attribute, NOT id
+				required: true
+			},
+			email: {
+				required: true,
+				email: true
+			},
+			phone: {
+				required: false,
+				digits: true
+			},
+			message: {
+				required: true
+			}
+		},
+		submitHandler: function(form) {
+			$( '#contact-form-1' ).submit(function(e) {
+				if(e.preventDefault()) {
+				} else {
+					var $this = $( this ),
+						action = $this.attr( 'action' );
+				};
+				$.post(
+					action,
+					$this.serialize(),
+					function( data ) {
+						$( '.ajax-message' ).html( data );
+					}
+				);
+			});
+		}
+    });
+});
+
