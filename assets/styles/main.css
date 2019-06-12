@@ -3040,11 +3040,11 @@ fieldset[disabled] .form-control:hover {
 }
 
 .navbar-trans .navbar-logo {
-  content: url(../images/ddvi-logo.png);
+  content: url(../images/ddvi-logo6-w.png);
 }
 
 .navbar-trans .navbar-logo-dark {
-  content: url(../images/ddvi-logo-bk.png);
+  content: url(../images/ddvi-logo6-b.png);
 }
 
 .navbar-trans:not(.navbar-inverse) .navbar-nav li a:focus,
