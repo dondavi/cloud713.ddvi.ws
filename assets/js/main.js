@@ -924,7 +924,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {  
         const messageContainer = document.querySelector('.ajax-message');  
         if (messageContainer) {  
-          messageContainer.insertAdjacentHTML('beforeend', "Email was sent successfully!");  
+          messageContainer.insertAdjacentHTML('beforeend', "<b>&#20;&#20;&#20;&#20;&#20;&#20;&#20;&#20;&#20;&#20;&#20;&#20;Email was sent successfully!</b>");  
         }  
 		console.log(data)
       })  
