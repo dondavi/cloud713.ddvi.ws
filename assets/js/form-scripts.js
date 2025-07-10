@@ -1,3 +1,7 @@
+
+
+
+
 $("#contactForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
@@ -9,6 +13,7 @@ $("#contactForm").validator().on("submit", function (event) {
         submitForm();
     }
 });
+
 
 function submitForm(){
     // Initiate Variables With Form Content
@@ -29,6 +34,7 @@ function submitForm(){
         }
     });
 }
+
 
 function formSuccess(){
     $("#contactForm")[0].reset();

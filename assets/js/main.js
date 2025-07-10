@@ -808,89 +808,10 @@
 
 
 /* --------------------------------------------------
-	Contact Form JS Validation & AJAX call
+	Contact Form  Validation & Post to serverless sendmail
 -------------------------------------------------- */
-/*
-$(function() {
-//	Regular Expressions
-var expEmail = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[_a-z0-9-]+(\.[_a-z0-9-]+)*(\.[a-z]{2,4})$/;
-var	expLettersOnly = /^[A-Za-z ]+$/;
 
-//	Checks if a field has the correct length
-function validateLength ( fieldValue, minLength ) {
-	return ( $.trim( fieldValue ).length > minLength );
-}
-
-//	Validate form on typing
-$( '.form-ajax' ).on( 'keyup', 'input.validate-locally', function() {
-	validateField( $(this) );
-});
-
-//	AJAX call
-$( '.form-ajax' ).submit(function(e) {
-
-if(e.preventDefault()) {
-} else {
-	var $this = $( this ),
-			action = $this.attr( 'action' );
-
-};
-
-	// The AJAX request
-	$.post(
-			action,
-			$this.serialize(),
-			function( data ) {
-				$( '.ajax-message' ).html( data );
-			}
-	);
-});
-
-//	Validates the fileds
-function validateField ( field ) {
-	var errorText = "",
-			error = false,
-			value = field.val(),
-			siblings = field.siblings( ".alert-error" );
-
-	// Test the name field
-	if ( field.attr("name") === "name" ) {
-		if ( !validateLength( value, 2 ) ) {
-					error = true;
-					errorText += '<i class="fa fa-info-circle"></i> The name is too short!<br>';
-					$('input[name="name"]').addClass('input-error');
-		} else {
-			$('input[name="name"]').removeClass('input-error');
-		}
-
-		if ( !expLettersOnly.test( value ) ) {
-					error = true;
-					errorText += '<i class="fa fa-info-circle"></i> The name can contain only letters and spaces!<br>';
-					$('input[name="name"]').addClass('input-error-2');
-		} else {
-			$('input[name="name"]').removeClass('input-error-2');
-		}
-	}
-
-
-	// Test the email field
-	if ( field.attr("name") === "email" ) {
-		if ( !expEmail.test( value ) ) {
-					error = true;
-					errorText += '<i class="fa fa-info-circle"></i> Enter correct email address!<br>';
-					$('input[name="email"]').addClass('input-error');
-		} else {
-			$('input[name="email"]').removeClass('input-error');
-		}
-	}
-
-	// Display the errors
-	siblings.html( errorText );
-	}
-});
-
-*/
-
+/*.  This code original post logic from 2018
 $(document).ready(function() {  // <-- ensure form's HTML is ready
 
 	$("#contact-form-1").validate({  // <-- initialize plugin on the form.
@@ -932,3 +853,153 @@ $(document).ready(function() {  // <-- ensure form's HTML is ready
 
     });
 });
+*/
+
+
+document.addEventListener('DOMContentLoaded', () => {  
+  const form = document.getElementById('contact-form-1');  
+    
+  // Initialize validation (assuming you're using jQuery Validation plugin)  
+  $(form).validate({  
+    rules: {  
+      name: {  
+        required: true  
+      },  
+      email: {  
+        required: true,  
+        email: true  
+      },  
+      phone: {  
+        required: false,  
+        digits: true  
+      },  
+      message: {  
+        required: true  
+      }  
+    },  
+    submitHandler: function(formElement, event) {  
+      const form = event.target;  
+      const submitButton = form.querySelector('input[type="submit"], button[type="submit"]');  
+        
+      // Disable submit button  
+      if (submitButton) {  
+        submitButton.disabled = true;  
+      }  
+        
+      event.preventDefault();  
+
+
+	const { name, email, phone, message } = event.target;
+    
+    
+      console.log('Name: ', name.value)
+      console.log('email: ', email.value)
+      console.log('mobile: ', phone.value)
+      console.log('message: ', message.value)
+        
+
+	const endpoint = "https://api2.ddvi.io/";
+      // We use JSON.stringify here so the data can be sent as a string via HTTP
+    const body = JSON.stringify({
+        from_name: name.value,
+        from_address: email.value,
+        phone_number: phone.value,
+        email_subject: "ddvi.io Contact Message",
+        email_message: message.value,
+        to_address: "d@ddvi.io"
+      });
+    const requestOptions = {
+        method: "POST",
+        body
+      };
+
+      // Modern fetch API  
+	fetch(endpoint, requestOptions)
+      .then(response => {  
+        if (!response.ok) {  
+          throw new Error('Network response was not ok');  
+        }  
+        return response.text();  
+      })  
+      .then(data => {  
+        const messageContainer = document.querySelector('.ajax-message');  
+        if (messageContainer) {  
+          messageContainer.insertAdjacentHTML('beforeend', "Email was sent successfully!");  
+        }  
+		console.log(data)
+      })  
+      .catch(error => {  
+        console.error('Error:', error);  
+        // Re-enable submit button on error  
+        if (submitButton) {  
+          submitButton.disabled = false;  
+        }  
+      });  
+    }  
+  });  
+});  
+/*. This is the conversion code from Deepseek to replace ajax with fetech api
+document.addEventListener('DOMContentLoaded', () => {  
+  const form = document.getElementById('contact-form-1');  
+    
+  // Initialize validation (assuming you're using jQuery Validation plugin)  
+  $(form).validate({  
+    rules: {  
+      name: {  
+        required: true  
+      },  
+      email: {  
+        required: true,  
+        email: true  
+      },  
+      phone: {  
+        required: false,  
+        digits: true  
+      },  
+      message: {  
+        required: true  
+      }  
+    },  
+    submitHandler: function(formElement, event) {  
+      const form = event.target;  
+      const submitButton = form.querySelector('input[type="submit"], button[type="submit"]');  
+        
+      // Disable submit button  
+      if (submitButton) {  
+        submitButton.disabled = true;  
+      }  
+        
+      event.preventDefault();  
+        
+      // Modern fetch API  
+      fetch(form.action, {  
+        method: 'POST',  
+        headers: {  
+          'Content-Type': 'application/x-www-form-urlencoded',  
+        },  
+        body: new URLSearchParams(new FormData(form))  
+      })  
+      .then(response => {  
+        if (!response.ok) {  
+          throw new Error('Network response was not ok');  
+        }  
+        return response.text();  
+      })  
+      .then(data => {  
+        const messageContainer = document.querySelector('.ajax-message');  
+        if (messageContainer) {  
+          messageContainer.insertAdjacentHTML('beforeend', data);  
+        }  
+      })  
+      .catch(error => {  
+        console.error('Error:', error);  
+        // Re-enable submit button on error  
+        if (submitButton) {  
+          submitButton.disabled = false;  
+        }  
+      });  
+    }  
+  });  
+});  
+
+*/
