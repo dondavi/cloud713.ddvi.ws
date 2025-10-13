@@ -154,10 +154,17 @@
               <textarea name="message" id="message" class="form-control" rows="5" placeholder="Your Message"></textarea>
               <label for="message-contact-1">Message</label>
             </div>
+            <div
+              class="cf-turnstile"
+              data-sitekey="0x4AAAAAAB6ajgYbn31I6arq"
+              data-theme="dark"
+              data-size="normal"
+              data-callback="onSuccess">
+            </div>
             <div>
               <input type="submit" class="btn pull-right" value="Send Message">
             </div>
-            <!-- Ajax Message -->
+            <!-- Message -->
           </div><!-- / .col-md-4 -->
           <div class="ajax-message col-md-12 no-gap"
             style="text-align: center; margin-top: 20px; padding: 15px; font-size: 16px; color: #28a745;"></div>
@@ -221,10 +228,13 @@
         -->
   <!-- Definity JS -->
   <script src="assets/js/main.js"></script>
+  <script
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer>
+</script>
   <!--  <script type="text/javascript" src="assets/js/form-scripts.js"></script>
-        <script  type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.8.1/validator.min.js"></script>
-      -->
-
+  -->
 </body>
 
 </html>
